@@ -76,6 +76,8 @@ The IPC socket lives at `$XDG_RUNTIME_DIR/abyss/$ABYSSLAND_INSTANCE_SIGNATURE/.a
 | [Abysstoolkit](https://github.com/AbyssWM/Abysstoolkit) | [hyprtoolkit](https://github.com/hyprwm/hyprtoolkit) |
 | [Abyss-guiutils](https://github.com/AbyssWM/Abyss-guiutils) | [hyprland-guiutils](https://github.com/hyprwm/hyprland-guiutils) |
 | **AbyssDusk** | [hyprsunset](https://github.com/hyprwm/hyprsunset) |
+| [AbyssLock](https://github.com/AbyssWM/AbyssLock) | [hyprlock](https://github.com/hyprwm/hyprlock) |
+| [AbyssPaper](https://github.com/AbyssWM/AbyssPaper) | [hyprpaper](https://github.com/hyprwm/hyprpaper) |
 | [AbyssPicker](https://github.com/AbyssWM/AbyssPicker) | [hyprpicker](https://github.com/hyprwm/hyprpicker) |
 
 ## Credits
