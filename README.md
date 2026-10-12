@@ -4,7 +4,7 @@
 
 # AbyssDusk
 
-**AbyssDusk – blue light filter for Abyssland, fork of hyprsunset (BSD-3, © hyprwm/vaxerski).**
+**Blue light filter for Abyssland.**
 
 Part of [**Abyss**](https://github.com/AbyssWM) · Based on [hyprsunset](https://github.com/hyprwm/hyprsunset) by [hyprwm](https://github.com/hyprwm)
 
@@ -18,6 +18,8 @@ Part of [**Abyss**](https://github.com/AbyssWM) · Based on [hyprsunset](https:/
 ## About
 
 AbyssDusk shifts the color temperature and gamma of your displays, based on the time of day or a fixed value. It talks to the compositor through the `abyssland-ctm-control-v1` protocol, so it only works on [Abyssland](https://github.com/AbyssWM/Abyssland).
+
+AbyssDusk is a fork of [hyprsunset](https://github.com/hyprwm/hyprsunset). Every Abyss library and tool is forked and renamed, so the whole ecosystem builds and updates as one – independent of system packages.
 
 ## Install
 
@@ -56,6 +58,25 @@ profile {
 ```
 
 The IPC socket lives at `$XDG_RUNTIME_DIR/abyss/$ABYSSLAND_INSTANCE_SIGNATURE/.abyssdusk.sock`.
+
+## The Abyss ecosystem
+
+| Repository | Based on |
+|---|---|
+| [Abyssland](https://github.com/AbyssWM/Abyssland) | [Hyprland](https://github.com/hyprwm/Hyprland) |
+| [Abyssal](https://github.com/AbyssWM/Abyssal) | [aquamarine](https://github.com/hyprwm/aquamarine) |
+| [Abyssutils](https://github.com/AbyssWM/Abyssutils) | [hyprutils](https://github.com/hyprwm/hyprutils) |
+| [Abyssparse](https://github.com/AbyssWM/Abyssparse) | [hyprlang](https://github.com/hyprwm/hyprlang) |
+| [Abysscursor](https://github.com/AbyssWM/Abysscursor) | [hyprcursor](https://github.com/hyprwm/hyprcursor) |
+| [Abyssgraphics](https://github.com/AbyssWM/Abyssgraphics) | [hyprgraphics](https://github.com/hyprwm/hyprgraphics) |
+| [Abysswire](https://github.com/AbyssWM/Abysswire) | [hyprwire](https://github.com/hyprwm/hyprwire) |
+| [Abyss-scanner](https://github.com/AbyssWM/Abyss-scanner) | [hyprwayland-scanner](https://github.com/hyprwm/hyprwayland-scanner) |
+| [Abyssland-protocols](https://github.com/AbyssWM/Abyssland-protocols) | [hyprland-protocols](https://github.com/hyprwm/hyprland-protocols) |
+| [Xdg-desktop-portal-abyss](https://github.com/AbyssWM/Xdg-desktop-portal-abyss) | [xdg-desktop-portal-hyprland](https://github.com/hyprwm/xdg-desktop-portal-hyprland) |
+| [Abysstoolkit](https://github.com/AbyssWM/Abysstoolkit) | [hyprtoolkit](https://github.com/hyprwm/hyprtoolkit) |
+| [Abyss-guiutils](https://github.com/AbyssWM/Abyss-guiutils) | [hyprland-guiutils](https://github.com/hyprwm/hyprland-guiutils) |
+| **AbyssDusk** | [hyprsunset](https://github.com/hyprwm/hyprsunset) |
+| [AbyssPicker](https://github.com/AbyssWM/AbyssPicker) | [hyprpicker](https://github.com/hyprwm/hyprpicker) |
 
 ## Credits
 
