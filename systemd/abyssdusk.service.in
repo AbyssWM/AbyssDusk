@@ -1,6 +1,6 @@
 [Unit]
 Description=An application to enable a blue-light filter on Abyssland.
-Documentation=https://wiki.abyssland.org/Abyss-Ecosystem/abyssdusk/
+Documentation=https://abysswm.github.io/
 PartOf=graphical-session.target
 Requires=graphical-session.target
 After=graphical-session.target
