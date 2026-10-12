@@ -4,17 +4,17 @@ file(READ "${CMAKE_SOURCE_DIR}/VERSION" VER_RAW)
 string(STRIP ${VER_RAW} VERSION)
 
 project(
-  hyprsunset
-  DESCRIPTION "An application to enable a blue-light filter on Hyprland"
+  abyssdusk
+  DESCRIPTION "An application to enable a blue-light filter on Abyssland"
   VERSION ${VERSION})
 
 set(CMAKE_MESSAGE_LOG_LEVEL "STATUS")
 
-add_compile_definitions(HYPRSUNSET_VERSION="${VERSION}")
+add_compile_definitions(ABYSSDUSK_VERSION="${VERSION}")
 
-message(STATUS "Configuring hyprsunset!")
+message(STATUS "Configuring abyssdusk!")
 
-configure_file(systemd/hyprsunset.service.in systemd/hyprsunset.service @ONLY)
+configure_file(systemd/abyssdusk.service.in systemd/abyssdusk.service @ONLY)
 
 # Get git info hash and branch
 execute_process(
@@ -61,13 +61,13 @@ pkg_check_modules(
   IMPORTED_TARGET
   wayland-client
   wayland-protocols
-  hyprutils>=0.2.3
-  hyprlang
-  hyprwayland-scanner>=0.4.0)
+  abyssutils>=0.2.3
+  abyssparse
+  abyss-scanner>=0.4.0)
 
 file(GLOB_RECURSE SRCFILES "src/*.cpp")
 
-add_executable(hyprsunset ${SRCFILES})
+add_executable(abyssdusk ${SRCFILES})
 
 pkg_get_variable(WAYLAND_PROTOCOLS_DIR wayland-protocols pkgdatadir)
 message(STATUS "Found wayland-protocols at ${WAYLAND_PROTOCOLS_DIR}")
@@ -83,46 +83,46 @@ function(protocolnew protoPath protoName external)
   add_custom_command(
     OUTPUT ${CMAKE_SOURCE_DIR}/protocols/${protoName}.cpp
            ${CMAKE_SOURCE_DIR}/protocols/${protoName}.hpp
-    COMMAND hyprwayland-scanner --client ${path}/${protoName}.xml
+    COMMAND abyss-scanner --client ${path}/${protoName}.xml
             ${CMAKE_SOURCE_DIR}/protocols/
     WORKING_DIRECTORY ${CMAKE_SOURCE_DIR})
-  target_sources(hyprsunset PRIVATE protocols/${protoName}.cpp
+  target_sources(abyssdusk PRIVATE protocols/${protoName}.cpp
                                     protocols/${protoName}.hpp)
 endfunction()
 function(protocolWayland)
   add_custom_command(
     OUTPUT ${CMAKE_SOURCE_DIR}/protocols/wayland.cpp
            ${CMAKE_SOURCE_DIR}/protocols/wayland.hpp
-    COMMAND hyprwayland-scanner --wayland-enums --client
+    COMMAND abyss-scanner --wayland-enums --client
             ${WAYLAND_SCANNER_DIR}/wayland.xml ${CMAKE_SOURCE_DIR}/protocols/
     WORKING_DIRECTORY ${CMAKE_SOURCE_DIR})
-  target_sources(hyprsunset PRIVATE protocols/wayland.cpp protocols/wayland.hpp)
+  target_sources(abyssdusk PRIVATE protocols/wayland.cpp protocols/wayland.hpp)
 endfunction()
 
 protocolwayland()
 
-pkg_check_modules(hyprland_protocols_dep REQUIRED IMPORTED_TARGET hyprland-protocols>=0.4.0)
-pkg_get_variable(HYPRLAND_PROTOCOLS hyprland-protocols pkgdatadir)
-message(STATUS "hyprland-protocols dependency set to ${HYPRLAND_PROTOCOLS}")
+pkg_check_modules(abyssland_protocols_dep REQUIRED IMPORTED_TARGET abyssland-protocols>=0.4.0)
+pkg_get_variable(ABYSSLAND_PROTOCOLS abyssland-protocols pkgdatadir)
+message(STATUS "abyssland-protocols dependency set to ${ABYSSLAND_PROTOCOLS}")
 
-protocolnew("${HYPRLAND_PROTOCOLS}/protocols" "hyprland-ctm-control-v1" true)
+protocolnew("${ABYSSLAND_PROTOCOLS}/protocols" "abyssland-ctm-control-v1" true)
 
-target_compile_definitions(hyprsunset
+target_compile_definitions(abyssdusk
                            PRIVATE "-DGIT_COMMIT_HASH=\"${GIT_COMMIT_HASH}\"")
-target_compile_definitions(hyprsunset PRIVATE "-DGIT_BRANCH=\"${GIT_BRANCH}\"")
+target_compile_definitions(abyssdusk PRIVATE "-DGIT_BRANCH=\"${GIT_BRANCH}\"")
 target_compile_definitions(
-  hyprsunset PRIVATE "-DGIT_COMMIT_MESSAGE=\"${GIT_COMMIT_MESSAGE}\"")
-target_compile_definitions(hyprsunset PRIVATE "-DGIT_DIRTY=\"${GIT_DIRTY}\"")
+  abyssdusk PRIVATE "-DGIT_COMMIT_MESSAGE=\"${GIT_COMMIT_MESSAGE}\"")
+target_compile_definitions(abyssdusk PRIVATE "-DGIT_DIRTY=\"${GIT_DIRTY}\"")
 
-target_link_libraries(hyprsunset rt)
+target_link_libraries(abyssdusk rt)
 
 set(CPACK_PROJECT_NAME ${PROJECT_NAME})
 set(CPACK_PROJECT_VERSION ${PROJECT_VERSION})
 include(CPack)
 
-target_link_libraries(hyprsunset PkgConfig::deps)
+target_link_libraries(abyssdusk PkgConfig::deps)
 
-target_link_libraries(hyprsunset pthread ${CMAKE_THREAD_LIBS_INIT}
+target_link_libraries(abyssdusk pthread ${CMAKE_THREAD_LIBS_INIT}
                       wayland-cursor)
 
 if(CMAKE_BUILD_TYPE MATCHES Debug OR CMAKE_BUILD_TYPE MATCHES DEBUG)
@@ -149,11 +149,11 @@ endif()
 
 include(GNUInstallDirs)
 
-install(TARGETS hyprsunset)
+install(TARGETS abyssdusk)
 
 pkg_get_variable(SYSTEMD_USER_UNIT_DIR systemd systemduserunitdir)
 if (NOT SYSTEMD_USER_UNIT_DIR)
   set(SYSTEMD_USER_UNIT_DIR "${CMAKE_INSTALL_PREFIX}/lib/systemd/user")
 endif()
 
-install(FILES ${CMAKE_BINARY_DIR}/systemd/hyprsunset.service DESTINATION "${SYSTEMD_USER_UNIT_DIR}")
+install(FILES ${CMAKE_BINARY_DIR}/systemd/abyssdusk.service DESTINATION "${SYSTEMD_USER_UNIT_DIR}")

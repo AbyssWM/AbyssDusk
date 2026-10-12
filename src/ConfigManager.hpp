@@ -1,7 +1,7 @@
 #pragma once
 
-#include "Hyprsunset.hpp"
-#include <hyprlang.hpp>
+#include "AbyssDusk.hpp"
+#include <abyssparse.hpp>
 #include <vector>
 
 class CConfigManager {
@@ -14,7 +14,7 @@ class CConfigManager {
     void                        init();
 
   private:
-    Hyprlang::CConfig m_config;
+    Abyssparse::CConfig m_config;
 
     std::string       currentConfigPath;
 };

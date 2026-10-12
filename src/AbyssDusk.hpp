@@ -5,13 +5,13 @@
 #include <mutex>
 #include <optional>
 #include <condition_variable>
-#include "protocols/hyprland-ctm-control-v1.hpp"
+#include "protocols/abyssland-ctm-control-v1.hpp"
 #include "protocols/wayland.hpp"
 
-#include <hyprutils/math/Mat3x3.hpp>
-#include <hyprutils/memory/WeakPtr.hpp>
-using namespace Hyprutils::Math;
-using namespace Hyprutils::Memory;
+#include <abyssutils/math/Mat3x3.hpp>
+#include <abyssutils/memory/WeakPtr.hpp>
+using namespace Abyssutils::Math;
+using namespace Abyssutils::Memory;
 #define UP CUniquePointer
 #define SP CSharedPointer
 #define WP CWeakPointer
@@ -24,7 +24,7 @@ struct SOutput {
 
 struct SState {
     SP<CCWlRegistry>                  pRegistry;
-    SP<CCHyprlandCtmControlManagerV1> pCTMMgr;
+    SP<CCAbysslandCtmControlManagerV1> pCTMMgr;
     wl_display*                       wlDisplay = nullptr;
     std::vector<SP<SOutput>>          outputs;
     bool                              initialized = false;
@@ -43,7 +43,7 @@ struct SSunsetProfile {
     bool          identity    = false;
 };
 
-class CHyprsunset {
+class CAbyssDusk {
   public:
     float                         MAX_GAMMA = 1.0f; // default
     float                         GAMMA     = 1.0f; // default
@@ -78,4 +78,4 @@ class CHyprsunset {
     std::vector<SSunsetProfile> profiles;
 };
 
-inline std::unique_ptr<CHyprsunset> g_pHyprsunset;
+inline std::unique_ptr<CAbyssDusk> g_pAbyssDusk;

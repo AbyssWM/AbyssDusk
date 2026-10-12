@@ -1,6 +1,6 @@
 [Unit]
-Description=An application to enable a blue-light filter on Hyprland.
-Documentation=https://wiki.hyprland.org/Hypr-Ecosystem/hyprsunset/
+Description=An application to enable a blue-light filter on Abyssland.
+Documentation=https://wiki.abyssland.org/Abyss-Ecosystem/abyssdusk/
 PartOf=graphical-session.target
 Requires=graphical-session.target
 After=graphical-session.target
@@ -8,7 +8,7 @@ ConditionEnvironment=WAYLAND_DISPLAY
 
 [Service]
 Type=simple
-ExecStart=@CMAKE_INSTALL_PREFIX@/bin/hyprsunset
+ExecStart=@CMAKE_INSTALL_PREFIX@/bin/abyssdusk
 Slice=session.slice
 Restart=on-failure
 

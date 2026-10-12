@@ -20,7 +20,7 @@ int main(int argc, char** argv, char** envp) {
     float       maxGamma = -1;
     bool        identity = false;
 
-    g_pHyprsunset = std::make_unique<CHyprsunset>();
+    g_pAbyssDusk = std::make_unique<CAbyssDusk>();
 
     for (int i = 1; i < argc; ++i) {
         if (argv[i] == std::string{"-t"} || argv[i] == std::string{"--temperature"}) {
@@ -78,7 +78,7 @@ int main(int argc, char** argv, char** envp) {
             printHelp();
             return 0;
         } else if (argv[i] == std::string{"-v"} || argv[i] == std::string{"--version"}) {
-            Debug::log(NONE, "hyprsunset v{}", HYPRSUNSET_VERSION);
+            Debug::log(NONE, "abyssdusk v{}", ABYSSDUSK_VERSION);
             return 0;
         } else if (argv[i] == std::string{"--verbose"}) {
             Debug::trace = true;
@@ -89,31 +89,31 @@ int main(int argc, char** argv, char** envp) {
         }
     }
 
-    Debug::log(NONE, "┏ hyprsunset v{} ━━╸\n┃", HYPRSUNSET_VERSION);
+    Debug::log(NONE, "┏ abyssdusk v{} ━━╸\n┃", ABYSSDUSK_VERSION);
 
     g_pConfigManager = makeUnique<CConfigManager>(configPath);
     g_pConfigManager->init();
 
-    g_pHyprsunset->loadCurrentProfile();
+    g_pAbyssDusk->loadCurrentProfile();
 
     if (kelvin != -1) {
-        g_pHyprsunset->KELVIN    = kelvin;
-        g_pHyprsunset->kelvinSet = true;
-        g_pHyprsunset->identity  = false;
+        g_pAbyssDusk->KELVIN    = kelvin;
+        g_pAbyssDusk->kelvinSet = true;
+        g_pAbyssDusk->identity  = false;
     }
 
     if (gamma != -1)
-        g_pHyprsunset->GAMMA = gamma;
+        g_pAbyssDusk->GAMMA = gamma;
 
     if (maxGamma != -1)
-        g_pHyprsunset->MAX_GAMMA = maxGamma;
+        g_pAbyssDusk->MAX_GAMMA = maxGamma;
 
     if (identity)
-        g_pHyprsunset->identity = true;
+        g_pAbyssDusk->identity = true;
 
-    if (!g_pHyprsunset->calculateMatrix())
+    if (!g_pAbyssDusk->calculateMatrix())
         return 1;
-    if (!g_pHyprsunset->init())
+    if (!g_pAbyssDusk->init())
         return 1;
 
     return 0;

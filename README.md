@@ -1,13 +1,13 @@
-## hyprsunset
-An application to enable a blue-light filter on Hyprland
+## abyssdusk
+An application to enable a blue-light filter on Abyssland
 
 > !IMPORTANT!
-> This app requires hyprland>=0.45.0
+> This app requires abyssland>=0.45.0
 
 ## Docs / Configuration
-[See the wiki](https://wiki.hypr.land/Hypr-Ecosystem/hyprsunset/)
+[See the wiki](https://github.com/AbyssWM/Abyssland)
 
 ## Support
 
-This utility relies on support for `hyprland-ctm-control-v1` by the compositor, so
-it's most likely hyprland-exclusive.
+This utility relies on support for `abyssland-ctm-control-v1` by the compositor, so
+it's most likely abyssland-exclusive.

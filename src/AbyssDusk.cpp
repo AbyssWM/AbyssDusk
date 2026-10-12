@@ -24,7 +24,7 @@ static void registerSignalAction(int sig, void (*handler)(int), int sa_flags = 0
 
 static void handleExitSignal(int sig) {
     Debug::log(NONE, "┣ Exiting on user interrupt\n╹");
-    g_pHyprsunset->terminate();
+    g_pAbyssDusk->terminate();
 }
 
 static void timespecAddNs(timespec* pTimespec, int64_t delta) {
@@ -69,11 +69,11 @@ void SOutput::applyCTM(struct SState* state) {
                                         wl_fixed_from_double(arr[8]));
 }
 
-void CHyprsunset::commitCTMs() {
-    g_pHyprsunset->state.pCTMMgr->sendCommit();
+void CAbyssDusk::commitCTMs() {
+    g_pAbyssDusk->state.pCTMMgr->sendCommit();
 }
 
-int CHyprsunset::calculateMatrix() {
+int CAbyssDusk::calculateMatrix() {
     if (KELVIN < 1000 || KELVIN > 20000) {
         Debug::log(NONE, "✖ Temperature invalid: {}. The temperature has to be between 1000 and 20000K", KELVIN);
         return 0;
@@ -98,7 +98,7 @@ int CHyprsunset::calculateMatrix() {
     return 1;
 }
 
-int CHyprsunset::init() {
+int CAbyssDusk::init() {
     // connect to the wayland server
     if (const auto SERVER = getenv("XDG_CURRENT_DESKTOP"); SERVER)
         Debug::log(NONE, "┣ Running on {}", SERVER);
@@ -114,15 +114,15 @@ int CHyprsunset::init() {
     state.pRegistry->setGlobal([this](CCWlRegistry* r, uint32_t name, const char* interface, uint32_t version) {
         const std::string IFACE = interface;
 
-        if (IFACE == hyprland_ctm_control_manager_v1_interface.name) {
+        if (IFACE == abyssland_ctm_control_manager_v1_interface.name) {
             auto targetVersion = std::min(version, 2u);
 
-            Debug::log(NONE, "┣ Found hyprland-ctm-control-v1 supported with version {}, binding to v{}", version, targetVersion);
-            state.pCTMMgr = makeShared<CCHyprlandCtmControlManagerV1>(
-                (wl_proxy*)wl_registry_bind((wl_registry*)state.pRegistry->resource(), name, &hyprland_ctm_control_manager_v1_interface, targetVersion));
+            Debug::log(NONE, "┣ Found abyssland-ctm-control-v1 supported with version {}, binding to v{}", version, targetVersion);
+            state.pCTMMgr = makeShared<CCAbysslandCtmControlManagerV1>(
+                (wl_proxy*)wl_registry_bind((wl_registry*)state.pRegistry->resource(), name, &abyssland_ctm_control_manager_v1_interface, targetVersion));
 
             if (targetVersion >= 2) {
-                state.pCTMMgr->setBlocked([](CCHyprlandCtmControlManagerV1*) {
+                state.pCTMMgr->setBlocked([](CCAbysslandCtmControlManagerV1*) {
                     Debug::log(NONE, "✖ A CTM manager is already running on the current compositor.");
                     exit(1);
                 });
@@ -148,7 +148,7 @@ int CHyprsunset::init() {
     wl_display_roundtrip(state.wlDisplay);
 
     if (!state.pCTMMgr) {
-        Debug::log(NONE, "✖ Compositor doesn't support hyprland-ctm-control-v1, are you running on Hyprland?");
+        Debug::log(NONE, "✖ Compositor doesn't support abyssland-ctm-control-v1, are you running on Abyssland?");
         return 0;
     }
 
@@ -172,7 +172,7 @@ int CHyprsunset::init() {
     return 1;
 }
 
-void CHyprsunset::startEventLoop() {
+void CAbyssDusk::startEventLoop() {
     pollfd pollfds[] = {
         {
             .fd     = wl_display_get_fd(state.wlDisplay),
@@ -270,12 +270,12 @@ void CHyprsunset::startEventLoop() {
     close(state.timerFD);
 }
 
-void CHyprsunset::tick() {
+void CAbyssDusk::tick() {
     if (g_pIPCSocket && g_pIPCSocket->mainThreadParseRequest())
         reload();
 }
 
-void CHyprsunset::reload() {
+void CAbyssDusk::reload() {
     calculateMatrix();
 
     for (auto& o : state.outputs) {
@@ -287,7 +287,7 @@ void CHyprsunset::reload() {
     wl_display_flush(state.wlDisplay);
 }
 
-void CHyprsunset::loadCurrentProfile() {
+void CAbyssDusk::loadCurrentProfile() {
     profiles  = g_pConfigManager->getSunsetProfiles();
     MAX_GAMMA = g_pConfigManager->getMaxGamma();
 
@@ -302,12 +302,12 @@ void CHyprsunset::loadCurrentProfile() {
             return a.time.minute < b.time.minute;
     });
 
-    int current = g_pHyprsunset->currentProfile();
+    int current = g_pAbyssDusk->currentProfile();
 
     if (current == -1)
         return;
 
-    SSunsetProfile profile = g_pHyprsunset->profiles[current];
+    SSunsetProfile profile = g_pAbyssDusk->profiles[current];
     KELVIN                 = profile.temperature;
     GAMMA                  = profile.gamma;
     identity               = profile.identity;
@@ -315,7 +315,7 @@ void CHyprsunset::loadCurrentProfile() {
     Debug::log(NONE, "┣ Applying profile from: {}:{}", profile.time.hour.count(), profile.time.minute.count());
 }
 
-int CHyprsunset::currentProfile() {
+int CAbyssDusk::currentProfile() {
     if (profiles.empty())
         return -1;
     else if (profiles.size() == 1)
@@ -338,7 +338,7 @@ int CHyprsunset::currentProfile() {
     return profiles.size() - 1;
 }
 
-std::optional<SSunsetProfile> CHyprsunset::getCurrentProfile() {
+std::optional<SSunsetProfile> CAbyssDusk::getCurrentProfile() {
     int current = currentProfile();
     if (current < 0)
         return std::nullopt;
@@ -346,7 +346,7 @@ std::optional<SSunsetProfile> CHyprsunset::getCurrentProfile() {
     return profiles[current];
 }
 
-void CHyprsunset::schedule() {
+void CAbyssDusk::schedule() {
     std::thread([&]() {
         while (true) {
             int current = currentProfile();
@@ -388,7 +388,7 @@ void CHyprsunset::schedule() {
     }).detach();
 }
 
-void CHyprsunset::terminate() {
+void CAbyssDusk::terminate() {
     m_sEventLoopInternals.shouldProcess = true;
     m_sEventLoopInternals.loopSignal.notify_all();
 
