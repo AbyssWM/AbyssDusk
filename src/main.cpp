@@ -6,6 +6,7 @@ static void printHelp() {
     Debug::log(NONE, "┣ --gamma_max             →  Set the maximum display gamma (default 100%, maximum 200%)");
     Debug::log(NONE, "┣ --temperature       -t  →  Set the temperature in K (default 6000)");
     Debug::log(NONE, "┣ --identity          -i  →  Use the identity matrix (no color change)");
+    Debug::log(NONE, "┣ --config            -c  →  Use this config file instead of ~/.config/abyss/abyssdusk.conf");
     Debug::log(NONE, "┣ --verbose               →  Print more logging");
     Debug::log(NONE, "┣ --version           -v  →  Print the version");
     Debug::log(NONE, "┣ --help              -h  →  Print this info");
@@ -74,6 +75,7 @@ int main(int argc, char** argv, char** envp) {
             }
 
             configPath = argv[i + 1];
+            ++i;
         } else if (argv[i] == std::string{"-h"} || argv[i] == std::string{"--help"}) {
             printHelp();
             return 0;

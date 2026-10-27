@@ -154,11 +154,9 @@ bool CIPCSocket::mainThreadParseRequest() {
         unsigned long long kelvin = g_pAbyssDusk->KELVIN;
         try {
             if (args[0] == '+' || args[0] == '-') {
-                if (args[0] == '-')
-                    kelvin -= std::stoull(args.substr(1));
-                else
-                    kelvin += std::stoull(args.substr(1));
-                kelvin = std::clamp(kelvin, 1000ull, 20000ull);
+                // signed, so going below 0 clamps to 1000 instead of wrapping around to 20000
+                const long long DELTA = std::stoll(args.substr(1));
+                kelvin                = static_cast<unsigned long long>(std::clamp(static_cast<long long>(kelvin) + (args[0] == '-' ? -DELTA : DELTA), 1000ll, 20000ll));
             } else
                 kelvin = std::stoull(args);
         } catch (std::exception& e) {
