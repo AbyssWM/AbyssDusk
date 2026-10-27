@@ -64,9 +64,9 @@ void CIPCSocket::initialize() {
                     std::lock_guard<std::mutex> lg(g_pAbyssDusk->m_sEventLoopInternals.loopRequestMutex);
 
                     auto                        messageSize              = read(ACCEPTEDCONNECTION, readBuffer, 1024);
-                    readBuffer[messageSize == 1024 ? 1023 : messageSize] = '\0';
-                    if (messageSize == 0)
+                    if (messageSize <= 0)
                         break;
+                    readBuffer[messageSize == 1024 ? 1023 : messageSize] = '\0';
                     std::string request(readBuffer);
 
                     m_szRequest     = request;
